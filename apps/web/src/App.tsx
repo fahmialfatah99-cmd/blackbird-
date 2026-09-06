@@ -9,6 +9,7 @@ import ChatList from './features/conversations/ChatList'
 import Conversation from './features/conversations/Conversation'
 import ContactList from './features/contacts/ContactList'
 import AddContact from './features/contacts/AddContact'
+import CreateGroup from './features/groups/CreateGroup'
 import './index.css'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -94,6 +95,12 @@ function App() {
         <Route path="/add-contact" element={
           <ProtectedRoute>
             <AddContact />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/create-group" element={
+          <ProtectedRoute>
+            <CreateGroup />
           </ProtectedRoute>
         } />
         
