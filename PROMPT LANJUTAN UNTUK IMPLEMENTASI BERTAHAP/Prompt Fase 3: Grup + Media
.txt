@@ -1,0 +1,1 @@
+Implementasikan Fase 3: chat grup dan media. Buat create group, group avatar, tambah anggota, admin role, keluar grup, dan chat grup realtime. Tambahkan upload gambar menggunakan Supabase Storage. Semua file harus melalui signed URL atau public URL yang aman. Pastikan hanya member grup yang bisa membaca dan mengirim pesan ke grup tersebut. Gunakan RLS.

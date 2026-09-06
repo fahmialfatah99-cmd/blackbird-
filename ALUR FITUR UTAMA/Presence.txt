@@ -1,0 +1,1 @@
+User aktif → update presence online → saat idle/logout → update last_seen_at → tampilkan status online/last seen ke user lain sesuai privasi

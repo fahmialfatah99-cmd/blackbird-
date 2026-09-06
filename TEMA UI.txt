@@ -1,0 +1,12 @@
+Primary Background: #05070d
+Secondary Background: #0a0f1a
+Card Background: #0d1524
+Primary Blue: #2563eb
+Accent Blue: #3b82f6
+Neon Blue: #38bdf8
+Border: #1e293b
+Text Primary: #e5e7eb
+Text Secondary: #94a3b8
+Success: #22c55e
+Warning: #f59e0b
+Danger: #ef4444

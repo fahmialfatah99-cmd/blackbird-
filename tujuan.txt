@@ -1,0 +1,330 @@
+Bertindaklah sebagai Principal Full-Stack Engineer dan Product Architect. Saya ingin membangun aplikasi messenger multi-perangkat bernama "BluePin Messenger" dengan fungsi inti seperti BlackBerry Messenger, tetapi lebih modern, aman, dan scalable.
+
+TUJUAN UTAMA:
+Buat aplikasi chat lintas perangkat yang mendukung Android, iOS, Web, dan opsional Desktop. Aplikasi harus memiliki sistem akun, kontak, chat personal, chat grup, status pesan, presence/online, profil, notifikasi, dan UI dark blue-black modern.
+
+ATURAN WAJIB:
+1. Jangan membuat fitur dummy, data palsu, mock API, atau state statis yang berpura-pura berfungsi.
+2. Semua fitur utama harus benar-benar terhubung ke database, authentication, realtime, dan storage.
+3. Gunakan validasi form, error handling, loading state, empty state, dan success notification.
+4. Semua data harus tersimpan permanen dan dapat digunakan kembali setelah refresh/reload atau restart aplikasi.
+5. Gunakan struktur proyek yang bersih, modular, scalable, dan production-ready.
+6. Pastikan autentikasi aman, password di-hash, dan akses data dilindungi permission/RLS.
+7. Jangan hanya membuat tampilan. Bangun logika asli yang berfungsi.
+8. Jika ada fitur yang belum bisa diselesaikan sekaligus, pecah menjadi tugas implementasi bertahap dengan prioritas jelas.
+
+STACK YANG DIGUNAKAN:
+- Frontend Mobile: React Native + Expo
+- Frontend Web: Next.js atau React PWA
+- Backend: Supabase
+  - Supabase Auth
+  - Supabase PostgreSQL
+  - Supabase Realtime
+  - Supabase Storage
+  - Supabase Edge Functions bila diperlukan
+- State Management: Zustand atau React Query
+- Styling: Tailwind CSS untuk web, NativeWind atau sistem desain internal untuk mobile
+- Push Notification: Firebase Cloud Messaging untuk Android dan APNs untuk iOS bila memungkinkan
+- Shared package untuk component, types, API client, hooks, dan utility
+
+TARGET DESAIN:
+- Tema warna biru-hitam modern
+- Dominan dark mode
+- Warna utama: black, deep navy, blue neon, electric blue
+- Gaya visual: modern, premium, clean, glassmorphism tipis, shadow halus, gradient biru, rounded corner, micro-interaction
+- Tampilan harus canggih seperti aplikasi chat modern, bukan template sederhana
+- Harus responsif di mobile, tablet, dan desktop
+- Gunakan komponen reusable dan design token yang konsisten
+
+FITUR AUTENTIKASI:
+1. Register dengan email/username/password
+2. Login dengan email/username/password
+3. Logout
+4. Lupa password
+5. Sesi login persisten
+6. Validasi input dan pesan error jelas
+7. Profil pengguna otomatis dibuat setelah register
+8. Setiap user memiliki ID unik seperti PIN BBM, misalnya format: BP-XXXXXX
+9. User dapat mengganti username, nama tampilan, avatar, status personal, dan bio
+
+FITUR PROFIL:
+1. Halaman profil sendiri
+2. Upload avatar
+3. Edit nama tampilan
+4. Edit username unik
+5. Edit status personal seperti BBM personal message
+6. Edit bio
+7. Tampilkan BluePin ID
+8. Tampilkan status online/last seen
+9. QR code profil untuk menambahkan kontak
+
+FITUR KONTAK:
+1. Cari pengguna berdasarkan username atau BluePin ID
+2. Kirim permintaan kontak
+3. Terima/tolak permintaan kontak
+4. Daftar kontak tersimpan permanen
+5. Blok pengguna
+6. Hapus kontak
+7. Tampilkan avatar, nama, status personal, dan presence
+8. Tidak boleh ada kontak dummy
+
+FITUR CHAT PERSONAL:
+1. Chat 1-to-1 realtime
+2. Kirim teks
+3. Kirim gambar
+4. Kirim emoji
+5. Status pesan:
+   - sending
+   - sent
+   - delivered
+   - read
+6. Typing indicator
+7. Scroll otomatis ke pesan terbaru
+8. Load more pesan lama
+9. Hapus pesan untuk saya
+10. Edit pesan jika masih diizinkan dalam waktu tertentu
+11. Reply pesan
+12. Forward pesan
+13. Cari pesan dalam percakapan
+14. Tampilkan read receipt
+15. Tampilkan last seen user
+
+FITUR CHAT GRUP:
+1. Buat grup
+2. Nama grup
+3. Avatar grup
+4. Tambah anggota
+5. Keluar grup
+6. Admin dan member
+7. Kirim pesan grup realtime
+8. Typing indicator grup
+9. Daftar member grup
+10. Ubah nama grup jika admin
+11. Ubah avatar grup jika admin
+12. Hapus anggota jika admin
+13. Read receipt grup sederhana: siapa yang sudah membaca jika memungkinkan
+
+FITUR PRESENCE:
+1. Online
+2. Offline
+3. Last seen
+4. Typing
+5. Update presence realtime
+6. Simpan last_seen di database
+
+FITUR NOTIFIKASI:
+1. Notifikasi pesan baru saat aplikasi tidak aktif
+2. Badge jumlah pesan belum dibaca
+3. Notifikasi permintaan kontak
+4. Notifikasi undangan grup
+5. Integrasi push notification jika environment mendukung
+
+FITUR TAMBAHAN MODERN:
+1. Dark mode default
+2. Pengaturan privasi:
+   - tampilkan last seen
+   - tampilkan read receipt
+   - izinkan pesan dari non-kontak
+3. Arsip percakapan
+4. Bisukan percakapan
+5. Hapus percakapan
+6. Backup metadata chat di database
+7. Search global untuk user dan chat
+8. Theme accent blue yang dapat dipilih
+9. Splash screen dan app icon bertema biru-hitam
+10. PWA installable untuk web
+
+DATABASE SCHEMA MINIMAL:
+Buat tabel berikut dengan relasi, index, dan Row Level Security:
+
+1. profiles
+   - id uuid primary key
+   - bluepin_id text unique
+   - username text unique
+   - display_name text
+   - avatar_url text
+   - personal_status text
+   - bio text
+   - show_last_seen boolean
+   - show_read_receipt boolean
+   - allow_messages_from_non_contacts boolean
+   - last_seen_at timestamptz
+   - created_at timestamptz
+   - updated_at timestamptz
+
+2. contacts
+   - id uuid primary key
+   - owner_id uuid references profiles
+   - contact_id uuid references profiles
+   - status text: pending, accepted, blocked
+   - created_at timestamptz
+   - updated_at timestamptz
+
+3. conversations
+   - id uuid primary key
+   - type text: direct, group
+   - name text nullable
+   - avatar_url text nullable
+   - created_by uuid
+   - created_at timestamptz
+   - updated_at timestamptz
+
+4. conversation_members
+   - id uuid primary key
+   - conversation_id uuid references conversations
+   - user_id uuid references profiles
+   - role text: admin, member
+   - joined_at timestamptz
+   - muted boolean
+   - archived boolean
+   - last_read_message_id uuid nullable
+
+5. messages
+   - id uuid primary key
+   - conversation_id uuid references conversations
+   - sender_id uuid references profiles
+   - type text: text, image, system
+   - content text
+   - attachment_url text nullable
+   - reply_to_message_id uuid nullable
+   - edited_at timestamptz nullable
+   - deleted_at timestamptz nullable
+   - created_at timestamptz
+
+6. message_receipts
+   - id uuid primary key
+   - message_id uuid references messages
+   - user_id uuid references profiles
+   - status text: delivered, read
+   - updated_at timestamptz
+
+7. typing_indicators
+   - conversation_id uuid
+   - user_id uuid
+   - is_typing boolean
+   - updated_at timestamptz
+
+8. presence
+   - user_id uuid primary key
+   - is_online boolean
+   - last_seen_at timestamptz
+
+9. notifications
+   - id uuid primary key
+   - user_id uuid
+   - type text
+   - payload jsonb
+   - read boolean
+   - created_at timestamptz
+
+REALTIME REQUIREMENTS:
+Gunakan Supabase Realtime atau WebSocket untuk:
+1. Pesan baru
+2. Typing indicator
+3. Presence
+4. Read receipt
+5. Perubahan conversation/member
+6. Permintaan kontak
+
+STRUKTUR FOLDER:
+Buat arsitektur monorepo atau shared packages dengan struktur seperti:
+
+apps/
+  mobile/
+  web/
+
+packages/
+  ui/
+  api-client/
+  hooks/
+  types/
+  utils/
+  config/
+
+ Di dalam app gunakan:
+- components/
+- features/
+- screens/ atau pages/
+- hooks/
+- services/
+- store/
+- styles/
+- lib/
+
+UI SCREENS MINIMAL:
+1. Splash screen
+2. Onboarding singkat
+3. Login
+4. Register
+5. Forgot password
+6. Home/chat list
+7. Conversation/chat detail
+8. Contact list
+9. Add contact
+10. Contact request
+11. Group info
+12. Create group
+13. Profile self
+14. Profile other
+15. Settings
+16. Privacy settings
+17. Notification settings
+18. Search
+19. Archived chats
+20. Image viewer
+
+DELIVERABLES:
+1. Arsitektur sistem lengkap
+2. Skema database SQL migration
+3. Row Level Security policy
+4. API/service layer
+5. Auth flow lengkap
+6. Realtime chat flow
+7. UI components
+8. Mobile app screens
+9. Web app screens
+10. Environment variable template
+11. Cara setup lokal
+12. Cara deploy
+13. Testing checklist
+
+QUALITY BAR:
+- Kode harus rapi dan konsisten
+- Tidak ada TODO palsu
+- Tidak ada data hardcoded sebagai pengganti backend
+- Semua tombol utama harus berfungsi
+- Semua form harus valid
+- Semua list harus berasal dari database
+- Semua chat harus realtime atau minimal polling efisien jika realtime belum tersedia
+- Gunakan TypeScript
+- Gunakan reusable component
+- Gunakan type-safe API/database layer
+
+PRIORITAS IMPLEMENTASI:
+Fase 1:
+- Setup project
+- Auth
+- Profile
+- Database
+- Layout utama
+
+Fase 2:
+- Kontak
+- Chat personal
+- Realtime pesan
+- Read receipt
+
+Fase 3:
+- Grup
+- Typing indicator
+- Presence
+- Upload gambar
+
+Fase 4:
+- Notifikasi
+- Privasi
+- Arsip
+- Search
+- Polish UI
+
+Mulailah dengan menjelaskan arsitektur final, lalu buat implementasi tahap demi tahap. Jangan berhenti hanya pada desain UI. Bangun sistem yang benar-benar berfungsi.

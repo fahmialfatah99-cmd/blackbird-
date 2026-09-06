@@ -1,0 +1,31 @@
+bluepin-messenger/
+├── apps/
+│   ├── mobile/
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── features/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   └── store/
+│   │
+│   └── web/
+│       ├── app/
+│       ├── components/
+│       ├── features/
+│       ├── hooks/
+│       ├── services/
+│       └── store/
+│
+├── packages/
+│   ├── api-client/
+│   ├── types/
+│   ├── hooks/
+│   ├── ui/
+│   ├── utils/
+│   └── config/
+│
+├── supabase/
+│   ├── migrations/
+│   └── seed/
+│
+└── README.md

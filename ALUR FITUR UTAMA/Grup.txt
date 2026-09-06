@@ -1,0 +1,1 @@
+User buat grup → insert conversation type group → insert conversation_members → admin dapat manage member → chat grup realtime

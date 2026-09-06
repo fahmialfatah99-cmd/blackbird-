@@ -1,0 +1,1 @@
+Implementasikan Fase 4: presence, notification, privacy, archive, search, dan polish UI. Buat status online/offline/last seen, typing indicator global, badge unread message, mute conversation, archive conversation, privacy setting, dan search global. Gunakan dark blue-black modern UI. Pastikan semua fitur berfungsi nyata dan tidak menggunakan mock data.

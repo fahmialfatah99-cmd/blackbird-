@@ -1,0 +1,1 @@
+User register → validate → create auth user → create profile → generate BluePin ID → login → session aktif

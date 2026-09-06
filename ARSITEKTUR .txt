@@ -1,0 +1,27 @@
+┌──────────────────────────────────────────────────────┐
+│                    CLIENT LAYER                      │
+│                                                      │
+│  Android / iOS / Web / Desktop                       │
+│  React Native + Expo + Next.js                       │
+│  Dark blue-black UI, realtime chat, local cache      │
+└──────────────┬───────────────────────────────────────┘
+               │ HTTPS / WebSocket / Realtime
+               ▼
+┌──────────────────────────────────────────────────────┐
+│                  BACKEND LAYER                       │
+│                                                      │
+│  Supabase                                            │
+│  - Auth: register/login/session                      │
+│  - PostgreSQL: users, contacts, chats, messages      │
+│  - Realtime: message, typing, presence, receipts     │
+│  - Storage: avatar, image attachment                 │
+│  - Edge Functions: push notification, cleanup, etc   │
+└──────────────┬───────────────────────────────────────┘
+               │
+               ▼
+┌──────────────────────────────────────────────────────┐
+│                 NOTIFICATION LAYER                   │
+│                                                      │
+│  FCM / APNs / Web Push                               │
+│  Trigger saat user offline atau app background       │
+└──────────────────────────────────────────────────────┘

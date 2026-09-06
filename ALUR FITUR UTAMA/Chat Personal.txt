@@ -1,0 +1,1 @@
+User buka kontak → buat/ambil conversation direct → kirim pesan → simpan ke messages → emit realtime → penerima menerima pesan → update sent/delivered/read
