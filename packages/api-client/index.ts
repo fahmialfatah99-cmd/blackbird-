@@ -7,7 +7,7 @@ import type {
   Presence,
   RegisterCredentials,
   AuthCredentials 
-} from '../types';
+} from '@bluepin/types';
 
 export class SupabaseApi {
   private client: SupabaseClient;

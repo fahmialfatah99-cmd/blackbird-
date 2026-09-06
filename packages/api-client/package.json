@@ -1,0 +1,13 @@
+{
+  "name": "@bluepin/api-client",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.109.0"
+  },
+  "peerDependencies": {
+    "@bluepin/types": "*"
+  }
+}
