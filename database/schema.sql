@@ -239,32 +239,39 @@ ALTER TABLE presence ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 -- Profiles policies
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON profiles;
 CREATE POLICY "Public profiles are viewable by everyone"
     ON profiles FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile"
     ON profiles FOR UPDATE
     USING (auth.uid() = id);
 
 -- Contacts policies
+DROP POLICY IF EXISTS "Users can view own contacts" ON contacts;
 CREATE POLICY "Users can view own contacts"
     ON contacts FOR SELECT
     USING (auth.uid() = owner_id OR auth.uid() = contact_id);
 
+DROP POLICY IF EXISTS "Users can insert own contacts" ON contacts;
 CREATE POLICY "Users can insert own contacts"
     ON contacts FOR INSERT
     WITH CHECK (auth.uid() = owner_id);
 
+DROP POLICY IF EXISTS "Users can update own contacts" ON contacts;
 CREATE POLICY "Users can update own contacts"
     ON contacts FOR UPDATE
     USING (auth.uid() = owner_id);
 
+DROP POLICY IF EXISTS "Users can delete own contacts" ON contacts;
 CREATE POLICY "Users can delete own contacts"
     ON contacts FOR DELETE
     USING (auth.uid() = owner_id);
 
 -- Conversations policies
+DROP POLICY IF EXISTS "Users can view conversations they are members of" ON conversations;
 CREATE POLICY "Users can view conversations they are members of"
     ON conversations FOR SELECT
     USING (
@@ -275,10 +282,12 @@ CREATE POLICY "Users can view conversations they are members of"
         )
     );
 
+DROP POLICY IF EXISTS "Users can create conversations" ON conversations;
 CREATE POLICY "Users can create conversations"
     ON conversations FOR INSERT
     WITH CHECK (auth.uid() = created_by);
 
+DROP POLICY IF EXISTS "Users can update conversations they are members of" ON conversations;
 CREATE POLICY "Users can update conversations they are members of"
     ON conversations FOR UPDATE
     USING (
@@ -290,6 +299,7 @@ CREATE POLICY "Users can update conversations they are members of"
     );
 
 -- Conversation Members policies
+DROP POLICY IF EXISTS "Users can view members of their conversations" ON conversation_members;
 CREATE POLICY "Users can view members of their conversations"
     ON conversation_members FOR SELECT
     USING (
@@ -301,10 +311,12 @@ CREATE POLICY "Users can view members of their conversations"
         )
     );
 
+DROP POLICY IF EXISTS "Users can add themselves to conversations" ON conversation_members;
 CREATE POLICY "Users can add themselves to conversations"
     ON conversation_members FOR INSERT
     WITH CHECK (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Admins can manage members" ON conversation_members;
 CREATE POLICY "Admins can manage members"
     ON conversation_members FOR UPDATE
     USING (
@@ -316,6 +328,7 @@ CREATE POLICY "Admins can manage members"
         )
     );
 
+DROP POLICY IF EXISTS "Admins can remove members" ON conversation_members;
 CREATE POLICY "Admins can remove members"
     ON conversation_members FOR DELETE
     USING (
@@ -328,6 +341,7 @@ CREATE POLICY "Admins can remove members"
     );
 
 -- Messages policies
+DROP POLICY IF EXISTS "Users can view messages in their conversations" ON messages;
 CREATE POLICY "Users can view messages in their conversations"
     ON messages FOR SELECT
     USING (
@@ -338,6 +352,7 @@ CREATE POLICY "Users can view messages in their conversations"
         )
     );
 
+DROP POLICY IF EXISTS "Users can send messages in their conversations" ON messages;
 CREATE POLICY "Users can send messages in their conversations"
     ON messages FOR INSERT
     WITH CHECK (
@@ -349,15 +364,18 @@ CREATE POLICY "Users can send messages in their conversations"
         )
     );
 
+DROP POLICY IF EXISTS "Users can update own messages" ON messages;
 CREATE POLICY "Users can update own messages"
     ON messages FOR UPDATE
     USING (sender_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can delete own messages" ON messages;
 CREATE POLICY "Users can delete own messages"
     ON messages FOR DELETE
     USING (sender_id = auth.uid());
 
 -- Message Receipts policies
+DROP POLICY IF EXISTS "Users can view receipts for their messages" ON message_receipts;
 CREATE POLICY "Users can view receipts for their messages"
     ON message_receipts FOR SELECT
     USING (
@@ -369,15 +387,18 @@ CREATE POLICY "Users can view receipts for their messages"
         )
     );
 
+DROP POLICY IF EXISTS "Users can update own receipts" ON message_receipts;
 CREATE POLICY "Users can update own receipts"
     ON message_receipts FOR UPDATE
     USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can create receipts" ON message_receipts;
 CREATE POLICY "Users can create receipts"
     ON message_receipts FOR INSERT
     WITH CHECK (user_id = auth.uid());
 
 -- Typing Indicators policies
+DROP POLICY IF EXISTS "Users can view typing indicators in their conversations" ON typing_indicators;
 CREATE POLICY "Users can view typing indicators in their conversations"
     ON typing_indicators FOR SELECT
     USING (
@@ -388,40 +409,49 @@ CREATE POLICY "Users can view typing indicators in their conversations"
         )
     );
 
+DROP POLICY IF EXISTS "Users can update own typing indicator" ON typing_indicators;
 CREATE POLICY "Users can update own typing indicator"
     ON typing_indicators FOR UPDATE
     USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can insert own typing indicator" ON typing_indicators;
 CREATE POLICY "Users can insert own typing indicator"
     ON typing_indicators FOR INSERT
     WITH CHECK (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can delete own typing indicator" ON typing_indicators;
 CREATE POLICY "Users can delete own typing indicator"
     ON typing_indicators FOR DELETE
     USING (user_id = auth.uid());
 
 -- Presence policies
+DROP POLICY IF EXISTS "Public presence viewable by everyone" ON presence;
 CREATE POLICY "Public presence viewable by everyone"
     ON presence FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Users can update own presence" ON presence;
 CREATE POLICY "Users can update own presence"
     ON presence FOR UPDATE
     USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can insert own presence" ON presence;
 CREATE POLICY "Users can insert own presence"
     ON presence FOR INSERT
     WITH CHECK (user_id = auth.uid());
 
 -- Notifications policies
+DROP POLICY IF EXISTS "Users can view own notifications" ON notifications;
 CREATE POLICY "Users can view own notifications"
     ON notifications FOR SELECT
     USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can update own notifications" ON notifications;
 CREATE POLICY "Users can update own notifications"
     ON notifications FOR UPDATE
     USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "System can insert notifications for users" ON notifications;
 CREATE POLICY "System can insert notifications for users"
     ON notifications FOR INSERT
     WITH CHECK (true);
