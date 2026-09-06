@@ -193,6 +193,12 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- TRIGGERS
 -- ============================================================================
 
+-- Drop existing triggers if they exist (for re-running schema)
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
+DROP TRIGGER IF EXISTS update_contacts_updated_at ON contacts;
+DROP TRIGGER IF EXISTS update_conversations_updated_at ON conversations;
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
 -- Update updated_at for profiles
 CREATE TRIGGER update_profiles_updated_at
     BEFORE UPDATE ON profiles
